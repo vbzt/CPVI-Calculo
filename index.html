@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f4efdf" />
+    <meta name="description" content="Um laboratório interativo para investigar os primeiros algarismos de dados reais e simulados com a lei de Newcomb-Benford." />
+    <title>Começam por quê? | Laboratório de Benford</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="data.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#laboratorio">Pular para o laboratório</a>
+    <header class="topbar">
+      <a class="wordmark" href="#inicio" aria-label="Começam por quê? Início">
+        <span class="wordmark-mark" aria-hidden="true">1.</span>
+        <span>caderno de números</span>
+      </a>
+      <nav aria-label="Navegação principal">
+        <a href="#laboratorio">Laboratório</a>
+        <a href="#ideia">A ideia</a>
+        <a href="#fontes">Fontes</a>
+      </nav>
+      <span class="course-tag">Cálculo em campo · 01</span>
+    </header>
+
+    <main id="inicio">
+      <section class="intro" aria-labelledby="page-title">
+        <div class="intro-copy">
+          <p class="overline"><span class="overline-rule"></span>Uma investigação sobre números</p>
+          <h1 id="page-title">Começam<br />por <em>quê?</em></h1>
+          <p class="intro-text">Escolha uma lista, olhe para o primeiro algarismo de cada valor e compare o que aparece com o que a matemática prevê.</p>
+          <a class="text-link" href="#laboratorio">Abrir o caderno <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="intro-note" aria-label="A lei de Benford prevê que o algarismo 1 apareça primeiro em cerca de 30,1 por cento dos números, e o 9 em cerca de 4,6 por cento.">
+          <span class="note-pin" aria-hidden="true"></span>
+          <p class="note-label">Uma previsão nada intuitiva</p>
+          <div class="note-numbers"><span>1</span><span>9</span></div>
+          <div class="note-captions"><span>30,1% começam por 1</span><span>4,6% começam por 9</span></div>
+          <svg class="note-curve" viewBox="0 0 300 62" role="img" aria-label="Curva decrescente das probabilidades previstas por Benford">
+            <path d="M4 6 C28 12, 38 21, 67 27 S116 39, 142 44 S194 52, 219 55 S268 59, 296 60" fill="none" stroke="currentColor" stroke-width="2" />
+          </svg>
+          <span class="note-formula">P(d) = log₁₀(1 + 1/d)</span>
+        </div>
+      </section>
+
+      <section class="lab-section" id="laboratorio" aria-labelledby="lab-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-index">01 / observe</p>
+            <h2 id="lab-title">Mude a lista.<br /><em>Leia o padrão.</em></h2>
+          </div>
+          <p class="section-aside">A lei fala do primeiro algarismo significativo. Zeros à esquerda não entram na contagem.</p>
+        </div>
+
+        <div class="lab-shell" aria-busy="true">
+          <aside class="dataset-rail" aria-label="Listas para comparar">
+            <p class="rail-heading">Escolha uma lista</p>
+            <div class="dataset-list" role="group" aria-label="Conjuntos de dados">
+              <button class="dataset-button is-active" data-dataset="population" aria-pressed="true">
+                <span class="dataset-number">A</span><span class="dataset-name">População por país</span><span class="dataset-kind">REAL · 2023</span>
+              </button>
+              <button class="dataset-button" data-dataset="gdp" aria-pressed="false">
+                <span class="dataset-number">B</span><span class="dataset-name">PIB por país</span><span class="dataset-kind">REAL · 2023</span>
+              </button>
+              <button class="dataset-button" data-dataset="area" aria-pressed="false">
+                <span class="dataset-number">C</span><span class="dataset-name">Área terrestre</span><span class="dataset-kind">REAL · 2023</span>
+              </button>
+              <button class="dataset-button" data-dataset="random" aria-pressed="false">
+                <span class="dataset-number">D</span><span class="dataset-name">Números de computador</span><span class="dataset-kind">SIMULADO</span>
+              </button>
+            </div>
+            <div class="rail-footnote"><span class="footnote-mark">↳</span><span>Três retratos do mundo. Uma sequência criada por você.</span></div>
+          </aside>
+
+          <div class="lab-main">
+            <div class="chart-topline">
+              <div>
+                <p class="chart-kicker" id="chart-kicker">DADOS REAIS · MUNDO</p>
+                <h3 id="chart-title">População por país</h3>
+              </div>
+              <p class="sample-count" id="sample-count" aria-live="polite">Carregando série…</p>
+            </div>
+            <div class="chart-legend" aria-label="Legenda do gráfico">
+              <span><i class="legend-square" aria-hidden="true"></i> Frequência observada</span>
+              <span><i class="legend-line" aria-hidden="true"></i> Previsão de Benford</span>
+            </div>
+            <div class="chart-frame" id="chart-frame">
+              <div class="chart-loading" id="chart-status" role="status">Buscando os dados no Banco Mundial…</div>
+              <svg id="digit-chart" class="digit-chart" viewBox="0 0 720 330" role="img" aria-labelledby="chart-svg-title chart-svg-desc" hidden>
+                <title id="chart-svg-title">Frequência dos primeiros algarismos</title>
+                <desc id="chart-svg-desc">Gráfico comparando a frequência observada e a probabilidade teórica da lei de Benford para os algarismos de um a nove.</desc>
+                <g id="chart-grid"></g>
+                <g id="chart-bars"></g>
+                <g id="chart-line"></g>
+                <g id="chart-labels"></g>
+              </svg>
+            </div>
+            <div class="digit-table-wrap">
+              <table class="digit-table">
+                <caption>Valores por primeiro algarismo</caption>
+                <thead><tr><th scope="row">Algarismo</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th><th scope="col">5</th><th scope="col">6</th><th scope="col">7</th><th scope="col">8</th><th scope="col">9</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Observado</th><td data-observed="0">—</td><td data-observed="1">—</td><td data-observed="2">—</td><td data-observed="3">—</td><td data-observed="4">—</td><td data-observed="5">—</td><td data-observed="6">—</td><td data-observed="7">—</td><td data-observed="8">—</td></tr>
+                  <tr><th scope="row">Benford</th><td>30,1%</td><td>17,6%</td><td>12,5%</td><td>9,7%</td><td>7,9%</td><td>6,7%</td><td>5,8%</td><td>5,1%</td><td>4,6%</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="chart-source" id="chart-source"></div>
+          </div>
+
+          <aside class="reading-panel" aria-labelledby="reading-title">
+            <p class="panel-index">LEITURA DO CADERNO</p>
+            <h3 id="reading-title">O que os algarismos contam?</h3>
+            <p class="analysis-copy" id="analysis-copy">Carregando a lista para comparar as frequências.</p>
+            <div class="stat-rule"></div>
+            <div class="stat-block">
+              <span class="stat-label">Qui-quadrado (χ²)</span>
+              <strong id="chi-square">—</strong>
+              <span class="stat-hint">mede o desvio entre observado e previsto</span>
+            </div>
+            <div class="stat-block stat-secondary">
+              <span class="stat-label">Distância total</span>
+              <strong id="total-distance">—</strong>
+              <span class="stat-hint">soma das diferenças absolutas, dividida por 2</span>
+            </div>
+            <div class="test-result" id="test-result" aria-live="polite">Aguardando dados</div>
+            <p class="test-caveat">Referência: χ² = 15,51 para 8 graus de liberdade, com α = 5%. O teste é uma pista estatística, não um detector de fraude.</p>
+          </aside>
+        </div>
+
+        <div class="simulator" id="simulator" hidden>
+          <div class="simulator-heading"><span class="sim-index">D</span><div><p class="section-index">BANCADA DE SIMULAÇÃO</p><h3>Que tipo de acaso você quer testar?</h3></div></div>
+          <div class="sim-controls">
+            <label class="field-label" for="distribution">Distribuição dos números
+              <select id="distribution"><option value="uniform">Uniforme: sorteia de 1 a 1.000.000</option><option value="log">Log-uniforme: sorteia a escala</option></select>
+            </label>
+            <label class="field-label" for="sample-size">Tamanho da amostra <output id="sample-size-value" for="sample-size">5.000</output>
+              <input id="sample-size" type="range" min="500" max="20000" step="500" value="5000" />
+            </label>
+            <button class="run-button" id="run-simulation" type="button">Sortear nova amostra</button>
+          </div>
+          <p class="sim-explanation" id="sim-explanation">Cada inteiro entre 1 e 1.000.000 tem a mesma chance. Será que os primeiros algarismos também ficam igualmente prováveis?</p>
+        </div>
+      </section>
+
+      <section class="idea-section" id="ideia" aria-labelledby="idea-title">
+        <div class="idea-heading"><p class="section-index">02 / entenda</p><h2 id="idea-title">A escala esconde<br /><em>uma pista logarítmica.</em></h2></div>
+        <div class="idea-body">
+          <p>Para cada número positivo, observe a parte fracionária de seu logaritmo decimal, chamada mantissa. Quando o primeiro algarismo é <i>d</i>, a mantissa cai entre log₁₀(<i>d</i>) e log₁₀(<i>d</i> + 1). Se essas mantissas se espalham por igual entre 0 e 1, o comprimento desse intervalo dá a probabilidade:</p>
+          <div class="equation" aria-label="P de d é igual a logaritmo na base dez de um mais um sobre d"><span>P(d) = log<sub>10</sub>(1 + <span class="fraction"><span>1</span><span>d</span></span>)</span></div>
+          <p>Para <i>d</i> = 1, o intervalo mede log₁₀(2), aproximadamente 0,301. Para <i>d</i> = 9, mede log₁₀(10/9), aproximadamente 0,046. Por isso o 1 aparece primeiro mais vezes que o 9. No painel, o qui-quadrado soma os desvios padronizados: χ² = Σ(O − E)²/E, em que O é a contagem observada e E a contagem esperada pela lei.</p>
+          <p class="caution-note"><strong>Nem toda lista serve.</strong> A lei costuma ser mais útil em dados que variam por várias escalas. Números limitados por regras, como idades, códigos postais ou números de telefone, não precisam seguir essa distribuição.</p>
+        </div>
+      </section>
+
+      <section class="sources-section" id="fontes" aria-labelledby="sources-title">
+        <div class="sources-heading"><p class="section-index">03 / confira</p><h2 id="sources-title">De onde vieram<br /><em>os números?</em></h2></div>
+        <div class="source-list">
+          <a class="source-item" href="https://data.worldbank.org/indicator/SP.POP.TOTL" target="_blank" rel="noreferrer"><span class="source-code">A</span><span><strong>População, total</strong><small>Banco Mundial · indicador SP.POP.TOTL · 2023</small></span><span class="source-arrow" aria-hidden="true">↗</span></a>
+          <a class="source-item" href="https://data.worldbank.org/indicator/NY.GDP.MKTP.CD" target="_blank" rel="noreferrer"><span class="source-code">B</span><span><strong>PIB (US$ corrente)</strong><small>Banco Mundial · indicador NY.GDP.MKTP.CD · 2023</small></span><span class="source-arrow" aria-hidden="true">↗</span></a>
+          <a class="source-item" href="https://data.worldbank.org/indicator/AG.LND.TOTL.K2" target="_blank" rel="noreferrer"><span class="source-code">C</span><span><strong>Área terrestre (km²)</strong><small>Banco Mundial · indicador AG.LND.TOTL.K2 · 2023</small></span><span class="source-arrow" aria-hidden="true">↗</span></a>
+        </div>
+        <p class="method-note">O caderno usa um retrato local da API de Indicadores do Banco Mundial, consultado em 25/10/2026. Cada lista inclui países e territórios com valor positivo em 2023; quantidades e dados estão em data.js para reprodução. O Banco Mundial pode revisar séries históricas. Países também compartilham tendências, então as observações não são totalmente independentes.</p>
+        <a class="api-link" href="https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation" target="_blank" rel="noreferrer">Documentação da API de Indicadores do Banco Mundial ↗</a>
+      </section>
+    </main>
+    <footer><span>Um exercício de leitura matemática.</span><span>Newcomb, 1881 · Benford, 1938</span></footer>
+  </body>
+</html>
